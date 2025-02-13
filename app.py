@@ -11,6 +11,10 @@ def home():
 def hello():
     return jsonify({"message": "Hello!", "status": "ok"})
 
+@app.route('/gm')
+def gm():
+    return jsonify({"message": "gm!", "status": "ok"})
+
 @app.route('/status')
 def status():
     return jsonify({"status": "active", "timestamp": datetime.now().isoformat()})
