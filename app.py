@@ -7,6 +7,10 @@ app = Flask(__name__)
 def home():
     return jsonify({"message": "Hola Mundo!", "status": "ok"})
 
+@app.route('/hello')
+def hello():
+    return jsonify({"message": "Hello!", "status": "ok"})
+
 @app.route('/status')
 def status():
     return jsonify({"status": "active", "timestamp": datetime.now().isoformat()})
