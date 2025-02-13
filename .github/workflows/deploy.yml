@@ -1,4 +1,4 @@
-name: Echo Secrets
+name: Verify Secrets
 
 on:
   push:
@@ -7,18 +7,32 @@ on:
     branches: [ main ]
 
 jobs:
-  echo-secrets:
+  verify-secrets:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v2
 
-    - name: Echo Secrets
+    - name: Verify Secrets
       env:
         PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
         HOST_NAME: ${{ secrets.EC2_PUBLIC_IP }}
-        USER_NAME: ${{ secrets.EC2_USER }}
+        USER_NAME: ${{ secrets.EC2_USER_ }}
       run: |
-        echo "Private Key (first 10 characters): ${PRIVATE_KEY:0:10}..."
-        echo "Host Name: $HOST_NAME"
-        echo "User Name: $USER_NAME"
+        if [ -n "$PRIVATE_KEY" ]; then
+          echo "EC2_PRIVATE_KEY is set (length: ${#PRIVATE_KEY})"
+        else
+          echo "EC2_PRIVATE_KEY is not set"
+        fi
+        
+        if [ -n "$HOST_NAME" ]; then
+          echo "EC2_HOST_NAME is set (first character: ${HOST_NAME:0:1}*)"
+        else
+          echo "EC2_HOST_NAME is not set"
+        fi
+        
+        if [ -n "$USER_NAME" ]; then
+          echo "EC2_USER_NAME is set (first character: ${USER_NAME:0:1}*)"
+        else
+          echo "EC2_USER_NAME is not set"
+        fi
